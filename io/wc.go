@@ -1,12 +1,20 @@
-package hello 
+package hello
 
-import ("bufio"; "fmt"; "os"; "strings")
-
+import (
+	"bufio"
+	"os"
+	"fmt"
+	"strings"
+)
 func main() {
-	for _, fname := os.Args[1:] {
+	for _, fname := range os.Args[1:] {
 		var lc, wc, cc int 
+		file, err := os.Open(fname)
 
-		file, err := os.OpenFile(fname)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			continue
+		}
 
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
@@ -19,7 +27,7 @@ func main() {
 			s := scan.Text()
 
 			cc += len(s)
-			wc += len(string.Fields(s))
+			wc += len(strings.Fields(s))
 			lc++
 		}
 		fmt.Printf("%7d %7d %7d %s\n", lc,wc, cc, fname)
